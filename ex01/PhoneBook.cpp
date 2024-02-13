@@ -1,5 +1,6 @@
 #include "PhoneBook.hpp"
 #include <cstdlib>
+#include <limits>
 
 PhoneBook::PhoneBook()
 {
@@ -80,9 +81,9 @@ void	PhoneBook::search()
 
 	std::cout << std::left << std::setw(10) << "Index";
 	std::cout << "\033[32m|\033[0m";
-	std::cout << std::left << std::setw(10) << "FirstName";
+	std::cout << std::setw(10) << "FirstName";
 	std::cout << "\033[32m|\033[0m";
-	std::cout << std::left << std::setw(10) << "LastName";
+	std::cout << std::setw(10) << "LastName";
 	std::cout << "\033[32m|\033[0m";
 	std::cout << std::setw(10) << "Nickname" << std::endl;
 	while (j < entries && j < 8)
@@ -92,15 +93,19 @@ void	PhoneBook::search()
 	}
 	std::cout << "\033[93mEnter an Index: \033[0m";
 	std::cin >> index;
+	std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 	if (std::cin.eof())
-	{
-		std::cout << "EOF" << std::endl;
 		exit(0);
+	if (std::cin.fail())
+	{
+		std::cin.clear();
+		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+		return;
 	}
 	if (index < 0 || index > 7)
 		std::cout << "\033[31m*** Index must be between 0 and 7 ***\033[0m" << std::endl;
 	else if (index >= entries)
-		std::cout << "\033[34m*** Still no entry for this Index ***\033[0m" << std::endl;
+		std::cout << "\033[31m*** Still no entry for this Index ***\033[0m" << std::endl;
 	else
 		contacts[index % 8].PrintIndex();
 }
