@@ -7,7 +7,6 @@ class PhoneBook
 	public:
 		void add();
 		void search();
-		void exit();
 		PhoneBook();
 		~PhoneBook();
 	private:
